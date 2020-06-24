@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Get Gnocchi project id
-  os_project_info:
+  openstack.cloud.os_project_info:
     name: "{{ gnocchi_service_project_name }}"
     interface: "{{ keystone_service_adminurl }}"
     verify: "{{ keystone_service_adminuri_insecure }}"
@@ -28,7 +28,7 @@
 
 - name: Store Gnocchi project id
   set_fact:
-    swift_gnocchi_service_project_id: "{{ get_gnocchi_project.keystone_facts.id }}"
+    swift_gnocchi_service_project_id: "{{ get_gnocchi_project.openstack_projects[0].id }}"
   when:
     - swift_gnocchi_enabled | bool
     - get_gnocchi_project is success
