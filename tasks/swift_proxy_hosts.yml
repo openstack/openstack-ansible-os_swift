@@ -13,25 +13,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Get Gnocchi project id
-  openstack.cloud.os_project_info:
-    name: "{{ gnocchi_service_project_name }}"
-    interface: "{{ keystone_service_adminurl }}"
-    verify: "{{ keystone_service_adminuri_insecure }}"
-  register: get_gnocchi_project
-  until: get_gnocchi_project is success
-  retries: 5
-  delay: 10
-  when:
-    - swift_gnocchi_enabled | bool
-  no_log: True
+- name: Define Gnocchi project id
+  delegate_to: "{{ swift_service_setup_host }}"
+  vars:
+    ansible_python_interpreter: "{{ swift_service_setup_host_python_interpreter }}"
+  block:
+    - name: Get Gnocchi project id
+      openstack.cloud.os_project_info:
+        name: "{{ gnocchi_service_project_name }}"
+        interface: "{{ keystone_service_adminurl }}"
+        verify: "{{ keystone_service_adminuri_insecure }}"
+      register: get_gnocchi_project
+      until: get_gnocchi_project is success
+      retries: 5
+      delay: 10
+      no_log: True
 
-- name: Store Gnocchi project id
-  set_fact:
-    swift_gnocchi_service_project_id: "{{ get_gnocchi_project.openstack_projects[0].id }}"
+    - name: Store Gnocchi project id
+      set_fact:
+        swift_gnocchi_service_project_id: "{{ get_gnocchi_project.openstack_projects[0].id }}"
   when:
     - swift_gnocchi_enabled | bool
-    - get_gnocchi_project is success
 
 - name: swift proxy server configuration
   config_template:
