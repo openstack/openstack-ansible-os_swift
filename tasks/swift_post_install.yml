@@ -48,4 +48,4 @@
   delegate_to: "{{ item }}"
   with_items: "{{ groups['swift_proxy'] }}"
   when:
-    - "inventory_hostname == ((groups['swift_proxy'] | intersect(ansible_play_hosts)) | list)[0]"
+    - _swift_proxy_is_first_play_host

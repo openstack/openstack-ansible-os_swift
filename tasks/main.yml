@@ -135,8 +135,7 @@
 
 - import_tasks: mq_setup.yml
   when:
-    - "swift_services['swift-proxy-server']['group'] in group_names"
-    - "inventory_hostname == ((groups[swift_services['swift-proxy-server']['group']]| intersect(ansible_play_hosts)) | list)[0]"
+    - _swift_proxy_is_first_play_host
   vars:
     _oslomsg_configure_notify: "{{ swift_ceilometer_enabled | bool }}"
     _oslomsg_notify_setup_host: "{{ swift_oslomsg_notify_setup_host }}"
@@ -184,7 +183,7 @@
   when:
     - "swift_do_setup | bool"
     - '"keystoneauth" in swift_middleware_list'
-    - "inventory_hostname == ((groups['swift_all'] | intersect(ansible_play_hosts)) | list)[0]"
+    - _swift_proxy_is_first_play_host
   tags:
     - swift-config
 
