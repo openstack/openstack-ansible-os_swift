@@ -31,7 +31,7 @@
     group: "{{ swift_system_group_name }}"
   with_items:
     - { item: "{{ swift.account | default({}) }}", port: "{{ swift_account_port }}", type: "account" }
-    - { item: "{{ swift.container | default({}) }}", port: "{{ swift_container_port}}", type: "container" }
+    - { item: "{{ swift.container | default({}) }}", port: "{{ swift_container_port }}", type: "container" }
 
 - name: "Build ring-contents files for storage policies"
   template:
@@ -53,7 +53,7 @@
   when: swift_install_method == 'distro'
 
 - name: "Build rings for account/container from contents files"
-  command: "/etc/swift/scripts/swift_rings.py -f /etc/swift/scripts/{{ item[0] }}.contents{% if item[1] %} -r {{ item[1] }}{% endif %}{{ (swift_pretend_min_part_hours_passed | bool) | ternary(' -p', '')}}"
+  command: "/etc/swift/scripts/swift_rings.py -f /etc/swift/scripts/{{ item[0] }}.contents{% if item[1] %} -r {{ item[1] }}{% endif %}{{ (swift_pretend_min_part_hours_passed | bool) | ternary(' -p', '') }}"
   with_nested:
     - [ 'account', 'container' ]
     - "{{ swift_managed_regions | default([None]) }}"
@@ -66,7 +66,7 @@
     chdir: /etc/swift/ring_build_files/
 
 - name: "Build rings for storage policies from contents files"
-  command: "/etc/swift/scripts/swift_rings.py -f /etc/swift/scripts/object-{{ item[0].policy.index }}.contents{% if item[1] %} -r {{ item[1] }}{% endif %}{{ (swift_pretend_min_part_hours_passed | bool) | ternary(' -p', '')}}"
+  command: "/etc/swift/scripts/swift_rings.py -f /etc/swift/scripts/object-{{ item[0].policy.index }}.contents{% if item[1] %} -r {{ item[1] }}{% endif %}{{ (swift_pretend_min_part_hours_passed | bool) | ternary(' -p', '') }}"
   with_nested:
     - "{{ swift.storage_policies }}"
     - "{{ swift_managed_regions | default([None]) }}"
