@@ -3,7 +3,7 @@
 [DEFAULT]
 # Disable stderr logging
 use_stderr = False
-bind_ip = 0.0.0.0
+bind_ip = {{ swift_proxy_bind_address }}
 bind_port = {{ swift_proxy_port }}
 workers = {{ swift_proxy_server_workers }}
 

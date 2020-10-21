@@ -94,6 +94,7 @@ swift_tempauth_users:
   - "user_admin_admin = admin .admin .reseller_admin"
 
 ## Swift default ports
+swift_proxy_bind_address: "{{ openstack_service_bind_address | default('0.0.0.0') }}"
 swift_proxy_port: "8080"
 # You can change the object, container, account ports.
 # This will update the ring, on the next playbook run,
