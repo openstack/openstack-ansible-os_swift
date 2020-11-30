@@ -225,7 +225,7 @@ swift_oslomsg_notify_vhost: /swift
 # value at 16 if the swift proxy is in a container and user did not define
 # this variable.
 swift_proxy_server_workers_max: 16
-swift_proxy_server_workers_not_capped: "{{ [ansible_processor_vcpus|default(2) // 2, 1] | max }}"
+swift_proxy_server_workers_not_capped: "{{ [(ansible_processor_vcpus//ansible_processor_threads_per_core)|default(1), 1] | max * 2 }}"
 swift_proxy_server_workers_capped: "{{ [swift_proxy_server_workers_max, swift_proxy_server_workers_not_capped|int] | min }}"
 swift_proxy_server_workers: "{{ (inventory_hostname == physical_host) | ternary(swift_proxy_server_workers_not_capped, swift_proxy_server_workers_capped) }}"
 
