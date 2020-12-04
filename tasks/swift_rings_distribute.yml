@@ -13,37 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# NOTE(cloudnull): These methods have been changed to use the rsync command
-#  instead of the Synchronize module. The change was required due to an upstream
-#  issue with the module when running with delegate_to and become. Sadly the fix
-#  does not seem to be trivial. "https://github.com/ansible/ansible/issues/15405"
+- name: Pull swift rings to localhost
+  synchronize:
+    src: /etc/swift/ring_build_files/
+    dest: "{{ lookup('env', 'OSA_CONFIG_DIR') }}/ring_build_files/"
+    mode: pull
+  when: _swift_is_first_play_host
 
-# TODO(logan): Change to synchronize module to pass ANSIBLE0006
-# and remove the skip_ansible_lint tag at that time.
-- name: "Get swift rings"
-  command: >
-    rsync -e 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-          -avz {{ swift_system_user_name }}@{{ hostvars[groups['swift_hosts'][0]]['ansible_host'] }}:/etc/swift/ring_build_files/
-          /etc/swift/
-  args:
-    warn: no
-  become: yes
-  become_user: "{{ swift_system_user_name }}"
-  changed_when: false
-  tags:
-    - skip_ansible_lint
-
-# TODO(logan): Change to synchronize module to pass ANSIBLE0006
-# and remove the skip_ansible_lint tag at that time.
-- name: "Get swift rings for backup in ring_build_files directory"
-  command: >
-    rsync -e 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-          -avz {{ swift_system_user_name }}@{{ hostvars[groups['swift_hosts'][0]]['ansible_host'] }}:/etc/swift/ring_build_files/
-          /etc/swift/ring_build_files/
-  args:
-    warn: no
-  become: yes
-  become_user: "{{ swift_system_user_name }}"
-  changed_when: false
-  tags:
-    - skip_ansible_lint
+- name: Upload swift rings
+  synchronize:
+    src: "{{ lookup('env', 'OSA_CONFIG_DIR') }}/ring_build_files/"
+    dest: /etc/swift/
+    mode: push
