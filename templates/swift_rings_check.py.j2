@@ -1,4 +1,4 @@
-#!{{ swift_bin }}/{{ (swift_install_method == 'distro' and ansible_os_family | lower == 'redhat' and ansible_distribution_major_version is version('7', '<=')) | ternary('python', swift_venv_python_executable) }}
+#!{{ swift_bin }}/{{ swift_venv_python_executable }}
 # Copyright 2014, Rackspace US, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,8 +12,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-from __future__ import print_function
 from optparse import OptionParser
 from os.path import exists
 
