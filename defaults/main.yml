@@ -14,8 +14,8 @@
 # limitations under the License.
 
 # Enable/Disable Telemetry projects
-swift_ceilometer_enabled: False
-swift_gnocchi_enabled: False
+swift_ceilometer_enabled: "{{ (groups['ceilometer_all'] is defined) and (groups['ceilometer_all'] | length > 0) }}"
+swift_gnocchi_enabled: "{{ (groups['gnocchi_all'] is defined) and (groups['gnocchi_all'] | length > 0) }}"
 
 ## Verbosity Options
 debug: False
@@ -26,13 +26,12 @@ debug: False
 swift_service_setup_host: "{{ openstack_service_setup_host | default('localhost') }}"
 swift_service_setup_host_python_interpreter: "{{ openstack_service_setup_host_python_interpreter | default((swift_service_setup_host == 'localhost') | ternary(ansible_playbook_python, ansible_python['executable'])) }}"
 
-# Set the package install state for distribution and pip packages
+# Set the package install state for distribution packages
 # Options are 'present' and 'latest'
-swift_package_state: "latest"
-swift_pip_package_state: "latest"
+swift_package_state: "{{ package_state | default('latest') }}"
 
 # Set installation method.
-swift_install_method: "source"
+swift_install_method: "{{ service_install_method | default('source') }}"
 swift_venv_python_executable: "{{ openstack_venv_python_executable | default('python2') }}"
 
 # Git repo details for swift
@@ -132,7 +131,7 @@ swift_service_adminuri: "{{ swift_service_adminuri_proto }}://{{ internal_lb_vip
 swift_service_adminurl: "{{ swift_service_adminuri }}/v1/AUTH_%(tenant_id)s"
 swift_service_internaluri: "{{ swift_service_internaluri_proto }}://{{ internal_lb_vip_address }}:{{ swift_proxy_port }}"
 swift_service_internalurl: "{{ swift_service_internaluri }}/v1/AUTH_%(tenant_id)s"
-swift_service_region: RegionOne
+swift_service_region: "{{ service_region | default('RegionOne') }}"
 statsd_host:
 statsd_port: 8125
 statsd_default_sample_rate: 1.0
@@ -242,7 +241,7 @@ swift_proxy_server_workers: "{{ (inventory_hostname == physical_host) | ternary(
 # for the swift-init-systemd.j2 template file.
 swift_dedicated_replication: False
 
-swift_service_in_ldap: false
+swift_service_in_ldap: "{{ service_ldap_backend_enabled | default(False) }}"
 
 # Basic swift configuration for the cluster
 swift: {}
