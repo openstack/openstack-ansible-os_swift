@@ -40,7 +40,6 @@ swift_git_install_branch: master
 
 swift_upper_constraints_url: "{{ requirements_git_url | default('https://releases.openstack.org/constraints/upper/' ~ requirements_git_install_branch | default('master')) }}"
 swift_git_constraints:
-  - "git+{{ swift_git_repo }}@{{ swift_git_install_branch }}#egg=swift"
   - "--constraint {{ swift_upper_constraints_url }}"
 
 swift_pip_install_args: "{{ pip_install_options | default('') }}"
@@ -313,7 +312,7 @@ swift_pip_packages:
   - pymemcache
   - python-memcached
   - python-swiftclient
-  - swift
+  - "git+{{ swift_git_repo }}@{{ swift_git_install_branch }}#egg=swift"
   - systemd-python
 
 # Memcached override
