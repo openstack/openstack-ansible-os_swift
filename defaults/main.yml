@@ -32,7 +32,7 @@ swift_package_state: "{{ package_state | default('latest') }}"
 
 # Set installation method.
 swift_install_method: "{{ service_install_method | default('source') }}"
-swift_venv_python_executable: "{{ openstack_venv_python_executable | default('python2') }}"
+swift_venv_python_executable: "{{ openstack_venv_python_executable | default('python3') }}"
 
 # Git repo details for swift
 swift_git_repo: https://opendev.org/openstack/swift
