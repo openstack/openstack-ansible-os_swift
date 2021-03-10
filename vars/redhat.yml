@@ -19,7 +19,7 @@ swift_distro_packages:
   - liberasurecode
   - openssh-server
   - openssh-clients
-  - "{{ ansible_distribution_major_version is version('8', '<') | ternary('rsync', 'rsync-daemon') }}"
+  - rsync-daemon
 
 swift_devel_distro_packages:
   - git
@@ -30,9 +30,9 @@ swift_devel_distro_packages:
 
 swift_service_distro_packages:
   - openstack-swift
-  - "{{ ansible_distribution_major_version is version('8', '<') | ternary('python-keystonemiddleware', 'python3-keystonemiddleware') }}"
-  - "{{ ansible_distribution_major_version is version('8', '<') | ternary('python-memcached', 'python3-memcached') }}"
-  - "{{ ansible_distribution_major_version is version('8', '<') | ternary('python-swift', 'python3-swift') }}"
+  - python3-keystonemiddleware
+  - python3-memcached
+  - python3-swift
 
 swift_account_distro_packages:
   - openstack-swift-account
