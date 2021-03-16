@@ -1,6 +1,6 @@
 # {{ ansible_managed }}
 
-{% set _api_threads = ansible_processor_vcpus|default(2) // 2 %}
+{% set _api_threads = ansible_facts['processor_vcpus']|default(2) // 2 %}
 {% set api_threads = _api_threads if _api_threads > 0 else 1 %}
 
 [DEFAULT]

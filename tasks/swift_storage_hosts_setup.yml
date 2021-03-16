@@ -49,7 +49,7 @@
     dest: "/etc/default/rsync"
     line: "RSYNC_ENABLE=true"
     regexp: "^RSYNC_ENABLE*"
-  when: ansible_pkg_mgr =="apt"
+  when: ansible_facts['pkg_mgr'] =="apt"
   notify: "Restart rsync service"
 
 - name: "Setup swift-recon-cron cron job"
