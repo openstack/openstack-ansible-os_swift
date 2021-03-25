@@ -23,7 +23,7 @@ log_statsd_metric_prefix = {{ swift_vars.statsd_metric_prefix | default(swift.st
 {% endif %}
 
 disable_fallocate = {{ swift_container_disable_fallocate }}
-fallocate_reserve = {{ swift_container_fallocate_reserve }}%
+fallocate_reserve = {{ swift_container_fallocate_reserve }}
 
 [pipeline:main]
 pipeline = healthcheck recon container-server
@@ -57,5 +57,3 @@ internal_client_conf_path = /etc/swift/container-server/internal-client.conf
 
 [filter:xprofile]
 use = egg:swift#xprofile
-
-[container-auditor]
