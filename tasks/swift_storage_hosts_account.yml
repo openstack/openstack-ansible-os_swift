@@ -15,18 +15,13 @@
 
 - name: "Swift account server configuration"
   config_template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
+    src: "account-server.conf.j2"
+    dest: "/etc/swift/account-server/account-server.conf"
     owner: "{{ swift_system_user_name }}"
     group: "{{ swift_system_group_name }}"
     mode: "0644"
     config_overrides: "{{ swift_account_server_conf_overrides }}"
     config_type: "ini"
-  with_items:
-    - src: "account-server-2.conf.j2"
-      dest: "/etc/swift/account-server/account-server-2.conf"
-    - src: "account-server.conf.j2"
-      dest: "/etc/swift/account-server/account-server.conf"
   notify: Restart swift services
 
 # We only create the dedicated replicator configuration when using a dedicated replication_network

@@ -24,7 +24,7 @@ log_statsd_metric_prefix = {{ swift_vars.statsd_metric_prefix | default(swift.st
 {% endif %}
 
 disable_fallocate = {{ swift_object_disable_fallocate }}
-fallocate_reserve = {{ swift_object_fallocate_reserve }}%
+fallocate_reserve = {{ swift_object_fallocate_reserve }}
 
 [pipeline:main]
 pipeline = healthcheck recon object-server
@@ -65,5 +65,3 @@ conn_timeout = 5
 
 [filter:xprofile]
 use = egg:swift#xprofile
-
-[object-auditor]
