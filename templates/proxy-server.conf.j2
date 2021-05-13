@@ -170,8 +170,17 @@ driver = messagingv2
 url = {{ swift_oslomsg_notify_transport }}://{% for host in swift_oslomsg_notify_servers.split(',') %}{{ swift_oslomsg_notify_userid }}:{{ swift_oslomsg_notify_password }}@{{ host }}:{{ swift_oslomsg_notify_port }}{% if not loop.last %},{% else %}/{{ swift_oslomsg_notify_vhost }}{% endif %}{% endfor %}
 
 topic = notifications
-{% if swift_gnocchi_service_project_id is defined %}
-ignore_projects = {{ swift_gnocchi_service_project_id }}
+{% if gnocchi_service_project_name is defined %}
+ignore_projects = {{ gnocchi_service_project_name }}
+auth_type = {{ swift_keystone_auth_plugin }}
+auth_url = {{ keystone_service_adminuri }}
+insecure = {{ keystone_service_adminuri_insecure | bool }}
+region_name = {{ keystone_service_region }}
+project_domain_id = {{ swift_service_project_domain_id }}
+user_domain_id = {{ swift_service_user_domain_id }}
+project_name = {{ swift_service_project_name }}
+username = {{ swift_service_user_name }}
+password = {{ swift_service_password }}
 {% endif %}
 log_level = WARN
 {% endif %}

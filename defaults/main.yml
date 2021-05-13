@@ -15,7 +15,6 @@
 
 # Enable/Disable Telemetry projects
 swift_ceilometer_enabled: "{{ (groups['ceilometer_all'] is defined) and (groups['ceilometer_all'] | length > 0) }}"
-swift_gnocchi_enabled: "{{ (groups['gnocchi_all'] is defined) and (groups['gnocchi_all'] | length > 0) }}"
 
 ## Verbosity Options
 debug: False
