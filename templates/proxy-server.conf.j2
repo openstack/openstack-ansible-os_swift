@@ -167,7 +167,7 @@ use = egg:swift#xprofile
 paste.filter_factory = ceilometermiddleware.swift:filter_factory
 control_exchange = swift
 driver = messagingv2
-url = {{ swift_oslomsg_notify_transport }}://{% for host in swift_oslomsg_notify_servers.split(',') %}{{ swift_oslomsg_notify_userid }}:{{ swift_oslomsg_notify_password }}@{{ host }}:{{ swift_oslomsg_notify_port }}{% if not loop.last %},{% else %}/{{ swift_oslomsg_notify_vhost }}{% endif %}{% endfor %}
+url = {{ swift_oslomsg_notify_transport }}://{% for host in swift_oslomsg_notify_servers.split(',') %}{{ swift_oslomsg_notify_userid }}:{{ swift_oslomsg_notify_password }}@{{ host }}:{{ swift_oslomsg_notify_port }}{% if not loop.last %},{% else %}/{{ swift_oslomsg_notify_vhost }}{% if swift_oslomsg_notify_use_ssl | bool %}?ssl=1&ssl_version={{ swift_oslomsg_notify_ssl_version }}&ssl_ca_file={{ swift_oslomsg_notify_ssl_ca_file }}{% else %}?ssl=0{% endif %}{% endif %}{% endfor %}
 
 topic = notifications
 {% if gnocchi_service_project_name is defined %}
