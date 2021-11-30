@@ -38,8 +38,8 @@ use = egg:swift#healthcheck
 
 [filter:recon]
 use = egg:swift#recon
-recon_cache_path = /var/cache/swift
-recon_lock_path = /var/lock
+recon_cache_path = {{ swift_cache_path }}
+recon_lock_path = {{ swift_lock_dir }}
 
 {% if not swift_dedicated_replication %}
 [object-replicator]

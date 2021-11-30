@@ -57,7 +57,7 @@
     - { path: "/etc/swift/proxy-server" }
     - { path: "/etc/swift/scripts" }
     - { path: "/etc/swift/ring_build_files" }
-    - { path: "/var/cache/swift" }
+    - { path: "{{ swift_cache_path }}" }
     - { path: "{{ swift_system_home_folder }}" }
     - { path: "/etc/rsync.d", owner: "root", group: "root" }
 

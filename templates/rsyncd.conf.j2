@@ -10,13 +10,13 @@ address = {{ swift_replication_address }}
 max connections = {{ swift_account_max_rsync_connections }}
 path = {{ swift_vars.mount_point | default(swift.mount_point) }}
 read only = false
-lock file = /var/lock/account.lock
+lock file = {{ swift_lock_dir }}/account.lock
 
 [container]
 max connections = {{ swift_container_max_rsync_connections }}
 path = {{ swift_vars.mount_point | default(swift.mount_point) }}
 read only = false
-lock file = /var/lock/container.lock
+lock file = {{ swift_lock_dir }}/container.lock
 
 {% if swift_rsync_module_per_drive %}
 {### Set up per drive rsync modules #}
@@ -45,7 +45,7 @@ lock file = /var/lock/container.lock
 max connections = {{ swift_object_max_rsync_connections }}
 path = {{ swift_vars.mount_point | default(swift.mount_point) }}
 read only = false
-lock file = /var/lock/object_{{ drive.name }}.lock
+lock file = {{ swift_lock_dir }}/object_{{ drive.name }}.lock
 
 {%         endif %}
 {%         set devAdded = True %}
@@ -57,7 +57,7 @@ lock file = /var/lock/object_{{ drive.name }}.lock
 max connections = {{ swift_object_max_rsync_connections }}
 path = {{ swift_vars.mount_point | default(swift.mount_point) }}
 read only = false
-lock file = /var/lock/object.lock
+lock file = {{ swift_lock_dir }}/object.lock
 
 {% endif %}
 &include /etc/rsync.d

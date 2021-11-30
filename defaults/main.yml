@@ -57,7 +57,9 @@ swift_system_group_name: swift
 swift_system_shell: /bin/bash
 swift_system_comment: swift system user
 swift_system_home_folder: "/var/lib/{{ swift_system_user_name }}"
-
+swift_system_slice_name: swift
+swift_lock_dir: "{{ openstack_lock_dir | default('/run/lock') }}"
+swift_cache_path: /var/cache/swift
 ## Auth token
 swift_delay_auth_decision: true
 
