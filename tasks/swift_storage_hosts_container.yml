@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: "Swift container server configuration"
-  config_template:
+  openstack.config_template.config_template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: "{{ swift_system_user_name }}"
@@ -39,7 +39,7 @@
 
 # If we've specified a container-sync realm use container-sync-realms.conf
 - name: "Swift container-sync configuration"
-  config_template:
+  openstack.config_template.config_template:
     src: "container-sync-realms.conf.j2"
     dest: "/etc/swift/container-sync-realms.conf"
     owner: "{{ swift_system_user_name }}"
@@ -53,7 +53,7 @@
 
 # We only create the dedicated replicator configuration when using a dedicated replication_network
 - name: "Swift container server replicator configuration"
-  config_template:
+  openstack.config_template.config_template:
     src: "container-server-replicator.conf.j2"
     dest: "/etc/swift/container-server/container-server-replicator.conf"
     owner: "{{ swift_system_user_name }}"

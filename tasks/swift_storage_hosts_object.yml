@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: "Swift object server configuration"
-  config_template:
+  openstack.config_template.config_template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: "{{ swift_system_user_name }}"
@@ -35,7 +35,7 @@
 
 # We only create the dedicated replicator configuration when using a dedicated replication_network
 - name: "Swift object server replicator configuration"
-  config_template:
+  openstack.config_template.config_template:
     src: "object-server-replicator.conf.j2"
     dest: "/etc/swift/object-server/object-server-replicator.conf"
     owner: "{{ swift_system_user_name }}"
@@ -54,7 +54,7 @@
   when: not swift_dedicated_replication | bool
 
 - name: Deploy drive-audit configuration file
-  config_template:
+  openstack.config_template.config_template:
     src: drive-audit.conf.j2
     dest: /etc/swift/drive-audit.conf
     owner: "{{ swift_system_user_name }}"

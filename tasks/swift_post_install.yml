@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Copy swift config
-  config_template:
+  openstack.config_template.config_template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: "{{ swift_system_user_name }}"
