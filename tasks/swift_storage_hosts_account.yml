@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: "Swift account server configuration"
-  config_template:
+  openstack.config_template.config_template:
     src: "account-server.conf.j2"
     dest: "/etc/swift/account-server/account-server.conf"
     owner: "{{ swift_system_user_name }}"
@@ -26,7 +26,7 @@
 
 # We only create the dedicated replicator configuration when using a dedicated replication_network
 - name: "Swift account server replicator configuration"
-  config_template:
+  openstack.config_template.config_template:
     src: "account-server-replicator.conf.j2"
     dest: "/etc/swift/account-server/account-server-replicator.conf"
     owner: "{{ swift_system_user_name }}"
