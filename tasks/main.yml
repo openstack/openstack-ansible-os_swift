@@ -121,7 +121,7 @@
           {
             'enabled': 'yes',
             'state': 'started',
-            'config_overrides': swift_service_defaults | combine(service.init_config_overrides)
+            'config_overrides': swift_service_defaults | combine(service.init_config_overrides, recursive=True)
           }
         )
       %}
