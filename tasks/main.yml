@@ -133,7 +133,12 @@
     - swift-config
     - systemd-service
 
-- import_tasks: mq_setup.yml
+- include_role:
+    name: openstack.osa.mq_setup
+    apply:
+      tags:
+        - common-mq
+        - swift-config
   when:
     - _swift_proxy_is_first_play_host
   vars:
@@ -144,10 +149,14 @@
     _oslomsg_notify_vhost: "{{ swift_oslomsg_notify_vhost }}"
     _oslomsg_notify_transport: "{{ swift_oslomsg_notify_transport }}"
   tags:
-    - common-mq
-    - swift-config
+    - always
 
-- import_tasks: service_setup.yml
+- include_role:
+    name: openstack.osa.service_setup
+    apply:
+      tags:
+        - common-service
+        - swift-config
   vars:
     _service_adminuri_insecure: "{{ keystone_service_adminuri_insecure }}"
     _service_in_ldap: "{{ swift_service_in_ldap }}"
@@ -185,7 +194,7 @@
     - '"keystoneauth" in swift_middleware_list'
     - _swift_proxy_is_first_play_host
   tags:
-    - swift-config
+    - always
 
 - name: Flush handlers
   meta: flush_handlers
