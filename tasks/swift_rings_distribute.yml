@@ -23,5 +23,8 @@
 - name: Upload swift rings
   synchronize:
     src: "{{ lookup('env', 'OSA_CONFIG_DIR') }}/ring_build_files/"
-    dest: /etc/swift/
+    dest: "{{ item }}"
     mode: push
+  with_items:
+    - /etc/swift/
+    - /etc/swift/ring_build_files/
