@@ -118,7 +118,12 @@ swift_service_project_name: service
 swift_service_project_domain_id: "default"
 swift_service_project_domain_name: "Default"
 swift_service_user_domain_id: "default"
-swift_service_role_name: "admin"
+swift_service_role_names:
+  - admin
+  - service
+swift_service_token_roles:
+  - service
+swift_service_token_roles_required: "{{ openstack_service_token_roles_required | default(True) }}"
 swift_service_type: object-store
 swift_service_proto: http
 swift_service_publicuri_proto: "{{ openstack_service_publicuri_proto | default(swift_service_proto) }}"

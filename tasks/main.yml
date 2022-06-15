@@ -172,7 +172,7 @@
     _service_users:
       - name: "{{ swift_service_user_name }}"
         password: "{{ swift_service_password }}"
-        role: "{{ swift_service_role_name }}"
+        role: "{{ swift_service_role_names }}"
       - name: "{{ swift_dispersion_user }}"
         password: "{{ swift_dispersion_password }}"
         role: "{{ swift_operator_role }}"

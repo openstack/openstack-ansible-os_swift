@@ -66,6 +66,11 @@ username = {{ swift_service_user_name }}
 password = {{ swift_service_password }}
 delay_auth_decision = {{ swift_delay_auth_decision }}
 include_service_catalog = False
+
+service_token_roles_required = {{ swift_service_token_roles_required | bool }}
+service_token_roles = {{ swift_service_token_roles | join(',') }}
+service_type = {{ swift_service_type }}
+
 {% if memcached_servers is defined %}
 memcached_servers = {{ swift_memcached_servers }}
 cache = swift.cache
