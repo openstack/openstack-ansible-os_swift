@@ -22,7 +22,7 @@ swift_distro_packages:
   - rsync
 
 swift_devel_distro_packages:
-  - git-core
+  - git
   - liberasurecode-dev
   - libffi-dev
   - libssl-dev
