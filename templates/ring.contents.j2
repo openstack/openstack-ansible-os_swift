@@ -69,15 +69,17 @@
 {%       set weight = drive.weight | default(swift_vars.weight | default(swift.weight | default(swift_default_drive_weight))) %}
 {%       set region = drive.region | default(swift_vars.region | default(swift.region | default(swift_default_host_region))) %}
 {%       set zone = drive.zone | default(swift_vars.zone | default(swift.zone | default(swift_default_host_zone))) %}
+{%       set stor_port = drive.storage_port | default(port) %}
+{%       set repl_port = drive.repl_port | default(port) %}
 {###     Update the device with the appropriate values #}
 {%       set _update = device.update({'device':drive.name}) %}
 {%       set _update = device.update({'weight': weight|int}) %}
 {%       set _update = device.update({'region': region|int}) %}
 {%       set _update = device.update({'zone': zone|int}) %}
 {%       set _update = device.update({'replication_ip': repl_ip}) %}
-{%       set _update = device.update({'replication_port': port|int}) %}
+{%       set _update = device.update({'replication_port': repl_port|int}) %}
 {%       set _update = device.update({'ip': storage_ip}) %}
-{%       set _update = device.update({'port': port|int}) %}
+{%       set _update = device.update({'port': stor_port|int}) %}
 {###     Append the device to the drives list of the builder dict #}
 {%       set _update = builder.drives.append(device) %}
 {%     endif %}

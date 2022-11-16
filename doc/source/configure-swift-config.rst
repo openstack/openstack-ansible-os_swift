@@ -225,6 +225,8 @@ file**
        #             weight: 75
        #             groups:
        #               - gold
+       #             storage_port: 6010
+       #             repl_port: 6110
        #           - name: sdc
        #           - name: sdd
        #           - name: sde
@@ -248,6 +250,11 @@ file**
        is specified, then the ``repl_ip`` defaults to the ``storage_ip``.
        If neither are specified, both default to the host IP
        address.
+
+   ``storage_port`` and ``repl_port``
+       Used to enable running object servers per disk. The default value
+       for both is ``swift_object_port``.
+       https://docs.openstack.org/swift/latest/deployment_guide.html
 
    ``zone``
        The default is 0. Optionally, set the swift zone for the
