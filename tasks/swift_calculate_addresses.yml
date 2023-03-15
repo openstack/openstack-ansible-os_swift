@@ -34,7 +34,7 @@
 # Get the swift storage bridge
 - name: Get swift storage bridge
   set_fact:
-    swift_storage_bridge: "{{ 'ansible_' + swift.storage_network | replace('-', '_') }}"
+    swift_storage_bridge: "{{ swift.storage_network | replace('-', '_') }}"
   when:
     - swift.storage_network is defined
     - swift_storage_address is not defined
@@ -46,7 +46,7 @@
     filter: "{{ swift_storage_bridge }}"
   when:
     - swift_storage_bridge is defined
-    - hostvars[inventory_hostname][swift_storage_bridge] is defined
+    - ansible_facts[swift_storage_bridge] is defined
     - swift_storage_address is not defined
 
 - name: Swift storage address not found
@@ -55,15 +55,15 @@
   when:
     - swift.storage_network is defined
     - swift_storage_bridge is defined
-    - hostvars[inventory_hostname][swift_storage_bridge] is not defined
+    - ansible_facts[swift_storage_bridge] is not defined
     - swift_storage_address is not defined
 
 - name: Get swift storage address (with storage_network)
   set_fact:
-    swift_storage_address: "{{ hostvars[inventory_hostname][swift_storage_bridge]['ipv4']['address'] }}"
+    swift_storage_address: "{{ ansible_facts[swift_storage_bridge]['ipv4']['address'] }}"
   when:
     - swift_storage_bridge is defined
-    - hostvars[inventory_hostname][swift_storage_bridge] is defined
+    - ansible_facts[swift_storage_bridge] is defined
     - swift_storage_address is not defined
   tags:
     - always
@@ -97,7 +97,7 @@
 
 - name: Get swift replication bridge
   set_fact:
-    swift_replication_bridge: "{{ 'ansible_' + swift.replication_network | replace('-', '_') }}"
+    swift_replication_bridge: "{{ swift.replication_network | replace('-', '_') }}"
   when:
     - swift.replication_network is defined
     - swift_replication_address is not defined
@@ -109,7 +109,7 @@
     filter: "{{ swift_replication_bridge }}"
   when:
     - swift_replication_bridge is defined
-    - hostvars[inventory_hostname][swift_replication_bridge] is defined
+    - ansible_facts[swift_replication_bridge] is defined
     - swift_replication_address is not defined
 
 - name: Swift replication address not found
@@ -118,15 +118,15 @@
   when:
     - swift.replication_network is defined
     - swift_replication_bridge is defined
-    - hostvars[inventory_hostname][swift_replication_bridge] is not defined
+    - ansible_facts[swift_replication_bridge] is not defined
     - swift_replication_address is not defined
 
 - name: Get swift replication address (with replication_network)
   set_fact:
-    swift_replication_address: "{{ hostvars[inventory_hostname][swift_replication_bridge]['ipv4']['address'] }}"
+    swift_replication_address: "{{ ansible_facts[swift_replication_bridge]['ipv4']['address'] }}"
   when:
     - swift_replication_bridge is defined
-    - hostvars[inventory_hostname][swift_replication_bridge] is defined
+    - ansible_facts[swift_replication_bridge] is defined
     - swift_replication_address is not defined
   tags:
     - always
