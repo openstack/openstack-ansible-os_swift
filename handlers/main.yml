@@ -22,6 +22,7 @@
   with_items: "{{ filtered_swift_services }}"
   listen:
     - "venv changed"
+    - "systemd service changed"
 
 - name: Restart rsync service
   service:
