@@ -520,3 +520,54 @@ swift_object_server_conf_overrides: {}
 swift_object_expirer_conf_overrides: {}
 swift_object_server_replicator_conf_overrides: {}
 swift_memcache_conf_overrides: {}
+
+###
+### Backend TLS
+###
+
+# Define if communication between haproxy and service backends should be
+# encrypted with TLS.
+# `openstack_service_backend_ssl` is not taken into account
+# because TLS in swift-proxy is only for testing purposes:
+# https://opendev.org/openstack/swift/src/commit/c78a5962b5f6c9e75f154cac924a226815236e98/etc/proxy-server.conf-sample
+swift_backend_ssl: False
+
+# Storage location for SSL certificate authority
+swift_pki_dir: "{{ openstack_pki_dir | default('/etc/openstack_deploy/pki') }}"
+
+# Delegated host for operating the certificate authority
+swift_pki_setup_host: "{{ openstack_pki_setup_host | default('localhost') }}"
+
+# swift server certificate
+swift_pki_keys_path: "{{ swift_pki_dir ~ '/certs/private/' }}"
+swift_pki_certs_path: "{{ swift_pki_dir ~ '/certs/certs/' }}"
+swift_pki_intermediate_cert_name: "{{ openstack_pki_service_intermediate_cert_name | default('ExampleCorpIntermediate') }}"
+swift_pki_regen_cert: ''
+swift_pki_san: "{{ openstack_pki_san | default('DNS:' ~ ansible_facts['hostname'] ~ ',IP:' ~ management_address) }}"
+swift_pki_certificates:
+  - name: "swift_{{ ansible_facts['hostname'] }}"
+    provider: ownca
+    cn: "{{ ansible_facts['hostname'] }}"
+    san: "{{ swift_pki_san }}"
+    signed_by: "{{ swift_pki_intermediate_cert_name }}"
+
+# swift destination files for SSL certificates
+swift_ssl_cert: /etc/swift/swift.pem
+swift_ssl_key: /etc/swift/swift.key
+
+# Installation details for SSL certificates
+swift_pki_install_certificates:
+  - src: "{{ swift_user_ssl_cert | default(swift_pki_certs_path ~ 'swift_' ~ ansible_facts['hostname'] ~ '-chain.crt') }}"
+    dest: "{{ swift_ssl_cert }}"
+    owner: "{{ swift_system_user_name }}"
+    group: "{{ swift_system_user_name }}"
+    mode: "0644"
+  - src: "{{ swift_user_ssl_key | default(swift_pki_keys_path ~ 'swift_' ~ ansible_facts['hostname'] ~ '.key.pem') }}"
+    dest: "{{ swift_ssl_key }}"
+    owner: "{{ swift_system_user_name }}"
+    group: "{{ swift_system_user_name }}"
+    mode: "0600"
+
+# Define user-provided SSL certificates
+#swift_user_ssl_cert: <path to cert on ansible deployment host>
+#swift_user_ssl_key: <path to cert on ansible deployment host>

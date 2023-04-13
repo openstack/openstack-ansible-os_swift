@@ -13,6 +13,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Create and install SSL certificates
+  include_role:
+    name: pki
+    tasks_from: main_certs.yml
+    apply:
+      tags:
+        - swift-config
+        - pki
+  vars:
+    pki_setup_host: "{{ swift_pki_setup_host }}"
+    pki_dir: "{{ swift_pki_dir }}"
+    pki_create_certificates: "{{ swift_user_ssl_cert is not defined and placement_user_ssl_key is not defined }}"
+    pki_regen_cert: "{{ swift_pki_regen_cert }}"
+    pki_certificates: "{{ swift_pki_certificates }}"
+    pki_install_certificates: "{{ swift_pki_install_certificates }}"
+  when:
+    - swift_backend_ssl
+  tags:
+    - always
+
 - name: swift proxy server configuration
   openstack.config_template.config_template:
     src: "proxy-server.conf.j2"

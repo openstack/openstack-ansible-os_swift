@@ -23,6 +23,7 @@
   listen:
     - "venv changed"
     - "systemd service changed"
+    - "cert installed"
 
 - name: Restart rsync service
   service:

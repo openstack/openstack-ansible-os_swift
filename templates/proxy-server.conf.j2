@@ -6,6 +6,10 @@ use_stderr = False
 bind_ip = {{ swift_proxy_bind_address }}
 bind_port = {{ swift_proxy_port }}
 workers = {{ swift_proxy_server_workers }}
+{% if swift_backend_ssl | bool %}
+cert_file = {{ swift_ssl_cert }}
+key_file = {{ swift_ssl_key }}
+{% endif %}
 
 user = {{ swift_system_user_name }}
 
