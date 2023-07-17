@@ -16,14 +16,16 @@
 - name: Download pre-built pypy
   get_url:
     url: "{{ swift_pypy_archive['url'] }}"
-    sha256sum: "{{ swift_pypy_archive['sha256'] }}"
+    checksum: "{{ swift_pypy_archive['checksum'] }}"
     dest: "/var/cache/{{ swift_pypy_archive['url'] | basename }}"
     force: yes
+    mode: "0644"
 
 - name: Create pypy dir
   file:
     path: "/opt/pypy-runtime"
     state: directory
+    mode: "0755"
 
 - name: Unarchive pre-built pypy
   unarchive:
@@ -35,6 +37,7 @@
 
 - name: Setup local pypy
   command: "{{ item }}"
+  changed_when: false
   with_items:
     - "{{ swift_pypy_env }} /opt/get-pip.py"
     - "{{ swift_pypy_env | dirname }}/pip install --upgrade virtualenv"
@@ -62,7 +65,7 @@
     virtualenv_command: "{{ swift_pypy_env | dirname }}/virtualenv"
     extra_args: >-
       {{ swift_developer_mode | ternary(pip_install_developer_constraints | default('--constraint /opt/developer-pip-constraints.txt'), '') }}
-      {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''),'') }}
+      {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''), '') }}
       {{ pip_install_options | default('') }}
   register: install_packages
   until: install_packages is success
@@ -75,3 +78,4 @@
   file:
     path: "{{ swift_bin | dirname }}/{{ swift_pypy_version }}-inuse"
     state: "touch"
+    mode: "0644"

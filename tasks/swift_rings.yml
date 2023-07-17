@@ -13,17 +13,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- include_tasks: swift_rings_md5sum.yml
+- name: Including swift_rings_md5sum tasks
+  include_tasks: swift_rings_md5sum.yml
 
-- include_tasks: swift_rings_check.yml
+- name: Including swift_rings_check tasks
+  include_tasks: swift_rings_check.yml
   when: _swift_is_first_play_host
 
-- include_tasks: swift_rings_build.yml
+- name: Including swift_rings_build tasks
+  include_tasks: swift_rings_build.yml
   when: _swift_is_first_play_host
 
-- include_tasks: swift_rings_distribute.yml
+- name: Including swift_rings_distribute tasks
+  include_tasks: swift_rings_distribute.yml
 
-- include_tasks: swift_rings_md5sum.yml
+- name: Including swift_rings_md5sum tasks
+  include_tasks: swift_rings_md5sum.yml
 
-- include_tasks: swift_rings_post_distribution_check.yml
+- name: Including swift_rings_post_distribution_check tasks
+  include_tasks: swift_rings_post_distribution_check.yml
   when: _swift_is_first_play_host

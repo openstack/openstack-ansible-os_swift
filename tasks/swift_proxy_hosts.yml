@@ -33,7 +33,7 @@
   tags:
     - always
 
-- name: swift proxy server configuration
+- name: Swift proxy server configuration
   openstack.config_template.config_template:
     src: "proxy-server.conf.j2"
     dest: "/etc/swift/proxy-server/proxy-server.conf"

@@ -21,4 +21,4 @@
 
 - name: Register a fact for the swift pub key
   set_fact:
-     swift_pubkey: "{{ swift_pub.content }}"
+    swift_pubkey: "{{ swift_pub.content }}"

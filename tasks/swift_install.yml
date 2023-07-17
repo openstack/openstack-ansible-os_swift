@@ -19,6 +19,7 @@
     section: "swift"
     option: "install_method"
     value: "{{ swift_install_method }}"
+    mode: "0644"
 
 - name: Refresh local facts to ensure the swift section is present
   setup:
@@ -52,5 +53,6 @@
         value: "{{ swift_venv_tag }}"
   when: swift_install_method == 'source'
 
-- include_tasks: swift_pypy_setup.yml
+- name: Including swift_pypy_setup tasks
+  include_tasks: swift_pypy_setup.yml
   when: swift_pypy_enabled | bool

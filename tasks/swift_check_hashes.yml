@@ -20,6 +20,7 @@
 
 - name: Get value of swift_hash_path_suffix from file
   command: "awk '/swift_hash_path_suffix/{ print $3 }' /etc/swift/swift.conf"
+  changed_when: false
   register: swift_conf_hash_path_suffix
   when:
     - swift_conf.stat.exists | bool
@@ -38,6 +39,7 @@
 
 - name: Get value of swift_hash_path_prefix from file
   command: "awk '/swift_hash_path_prefix/{ print $3 }' /etc/swift/swift.conf"
+  changed_when: false
   register: swift_conf_hash_path_prefix
   when:
     - swift_conf.stat.exists | bool

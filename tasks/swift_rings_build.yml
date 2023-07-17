@@ -29,6 +29,7 @@
     dest: "/etc/swift/scripts/{{ item.type }}.contents"
     owner: "{{ swift_system_user_name }}"
     group: "{{ swift_system_group_name }}"
+    mode: "0640"
   with_items:
     - { item: "{{ swift.account | default({}) }}", port: "{{ swift_account_port }}", type: "account" }
     - { item: "{{ swift.container | default({}) }}", port: "{{ swift_container_port }}", type: "container" }
@@ -39,6 +40,7 @@
     dest: "/etc/swift/scripts/object-{{ item[0].policy.index }}.contents"
     owner: "{{ swift_system_user_name }}"
     group: "{{ swift_system_group_name }}"
+    mode: "0640"
   with_nested:
     - "{{ swift.storage_policies }}"
     - [{ type: 'object', port: "{{ swift_object_port }}" }]
@@ -53,9 +55,11 @@
   when: swift_install_method == 'distro'
 
 - name: "Build rings for account/container from contents files"
-  command: "/etc/swift/scripts/swift_rings.py -f /etc/swift/scripts/{{ item[0] }}.contents{% if item[1] %} -r {{ item[1] }}{% endif %}{{ (swift_pretend_min_part_hours_passed | bool) | ternary(' -p', '') }}"
+  command: >-
+    /etc/swift/scripts/swift_rings.py -f /etc/swift/scripts/{{ item[0] }}.contents{% if item[1] %} -r {{ item[1] }}{% endif %}{{
+      (swift_pretend_min_part_hours_passed | bool) | ternary(' -p', '') }}
   with_nested:
-    - [ 'account', 'container' ]
+    - ['account', 'container']
     - "{{ swift_managed_regions | default([None]) }}"
   register: swift_rings_create
   become: yes
@@ -66,7 +70,9 @@
     chdir: /etc/swift/ring_build_files/
 
 - name: "Build rings for storage policies from contents files"
-  command: "/etc/swift/scripts/swift_rings.py -f /etc/swift/scripts/object-{{ item[0].policy.index }}.contents{% if item[1] %} -r {{ item[1] }}{% endif %}{{ (swift_pretend_min_part_hours_passed | bool) | ternary(' -p', '') }}"
+  command: >-
+    /etc/swift/scripts/swift_rings.py -f /etc/swift/scripts/object-{{ item[0].policy.index }}.contents{%
+      if item[1] %} -r {{ item[1] }}{% endif %}{{ (swift_pretend_min_part_hours_passed | bool) | ternary(' -p', '') }}
   with_nested:
     - "{{ swift.storage_policies }}"
     - "{{ swift_managed_regions | default([None]) }}"

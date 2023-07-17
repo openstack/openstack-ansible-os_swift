@@ -13,7 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- include_tasks: swift_storage_hosts_setup.yml
-- include_tasks: swift_storage_hosts_object.yml
-- include_tasks: swift_storage_hosts_account.yml
-- include_tasks: swift_storage_hosts_container.yml
+- name: Including swift_storage_hosts_setup tasks
+  include_tasks: swift_storage_hosts_setup.yml
+- name: Including swift_storage_hosts_object tasks
+  include_tasks: swift_storage_hosts_object.yml
+- name: Including swift_storage_hosts_account tasks
+  include_tasks: swift_storage_hosts_account.yml
+- name: Including swift_storage_hosts_container tasks
+  include_tasks: swift_storage_hosts_container.yml

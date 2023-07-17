@@ -44,60 +44,69 @@
     - always
 
 # Check the swift_hash_path_* variables haven't changed
-- import_tasks: swift_check_hashes.yml
+- name: Importing swift_check_hashes tasks
+  import_tasks: swift_check_hashes.yml
   when:
     - "not swift_force_change_hashes | bool"
   tags:
     - swift-config
 
-- import_tasks: swift_pre_install.yml
+- name: Importing swift_pre_install tasks
+  import_tasks: swift_pre_install.yml
   when:
     - "swift_do_setup | bool"
     - "'swift_all' in group_names"
   tags:
     - swift-install
 
-- import_tasks: swift_install.yml
+- name: Importing swift_install tasks
+  import_tasks: swift_install.yml
   when:
     - "swift_do_setup | bool"
     - "'swift_all' in group_names"
   tags:
     - swift-install
 
-- import_tasks: swift_post_install.yml
+- name: Importing swift_post_install tasks
+  import_tasks: swift_post_install.yml
   when:
     - "swift_do_setup | bool"
     - "'swift_all' in group_names"
   tags:
     - swift-config
 
-- import_tasks: swift_calculate_addresses.yml
+- name: Importing swift_calculate_addresses tasks
+  import_tasks: swift_calculate_addresses.yml
   when:
     - "'swift_hosts' in group_names"
   tags:
     - always
 
-- import_tasks: swift_storage_hosts.yml
+- name: Importing swift_storage_hosts tasks
+  import_tasks: swift_storage_hosts.yml
   when:
     - "swift_do_setup | bool"
     - "'swift_hosts' in group_names"
   tags:
     - swift-config
 
-- import_tasks: swift_proxy_hosts.yml
+- name: Importing swift_proxy_hosts tasks
+  import_tasks: swift_proxy_hosts.yml
   when:
     - "swift_do_setup | bool"
     - "'swift_proxy' in group_names"
   tags:
     - swift-config
 
-- import_tasks: swift_key_setup.yml
+- name: Importing swift_key_setup tasks
+  import_tasks: swift_key_setup.yml
   when:
     - "swift_do_sync | bool"
   tags:
     - swift-config
 
-- import_tasks: swift_rings.yml
+- name: Importing swift_rings tasks
+  import_tasks: swift_rings.yml
   when:
     - "swift_do_sync | bool"
   tags:
@@ -113,10 +122,10 @@
     systemd_tempd_prefix: openstack
     systemd_slice_name: "{{ swift_system_slice_name }}"
     systemd_lock_dir: "{{ swift_lock_dir }}"
-    systemd_CPUAccounting: true
-    systemd_BlockIOAccounting: true
-    systemd_MemoryAccounting: true
-    systemd_TasksAccounting: true
+    systemd_service_cpu_accounting: true
+    systemd_service_block_io_accounting: true
+    systemd_service_memory_accounting: true
+    systemd_service_tasks_accounting: true
     systemd_services: |-
       {% set services = [] %}
       {% for service in filtered_swift_services %}
@@ -137,7 +146,8 @@
     - swift-config
     - systemd-service
 
-- include_role:
+- name: Including osa.mq_setup role
+  include_role:
     name: openstack.osa.mq_setup
     apply:
       tags:
@@ -155,7 +165,8 @@
   tags:
     - always
 
-- include_role:
+- name: Including osa.service_setup roled
+  include_role:
     name: openstack.osa.service_setup
     apply:
       tags:

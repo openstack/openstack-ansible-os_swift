@@ -43,7 +43,7 @@
   command: "/etc/swift/scripts/swift_rings_check.py -f /etc/swift/scripts/{{ item[0] }}.contents{% if item[1] %} -r {{ item[1] }} {% endif %}"
   changed_when: false
   with_nested:
-    - [ 'account', 'container' ]
+    - ['account', 'container']
     - "{{ swift_managed_regions | default([None]) }}"
   become: yes
   become_user: "{{ swift_system_user_name }}"
@@ -51,7 +51,8 @@
     chdir: /etc/swift/ring_build_files/
 
 - name: "Ensure contents file matches ring after ring sync for storage policies"
-  command: "/etc/swift/scripts/swift_rings_check.py -f /etc/swift/scripts/object-{{ item[0].policy.index }}.contents{% if item[1] %} -r {{ item[1] }} {% endif %}"
+  command: >-
+    /etc/swift/scripts/swift_rings_check.py -f /etc/swift/scripts/object-{{ item[0].policy.index }}.contents{% if item[1] %} -r {{ item[1] }} {% endif %}
   changed_when: false
   with_nested:
     - "{{ swift.storage_policies }}"

@@ -66,4 +66,5 @@
     owner: "{{ swift_system_user_name }}"
     group: "{{ swift_system_group_name }}"
     state: "directory"
-  with_items: "{{ swift_vars.drives| default(swift.drives) | default([]) }}"
+    mode: "0755"
+  with_items: "{{ swift_vars.drives | default(swift.drives) | default([]) }}"
