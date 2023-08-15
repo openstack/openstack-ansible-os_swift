@@ -29,7 +29,7 @@ usage.
 
 #. Optionally, allow all Identity (keystone) users to use swift by setting
    ``swift_allow_all_users`` in the ``user_variables.yml`` file to
-   ``True``. Any users with the ``_member_`` role (all authorized
+   ``True``. Any users with the ``member`` role (all authorized
    keystone users) can create containers and upload objects
    to Object Storage.
 
