@@ -21,6 +21,12 @@ _swift_proxy_is_first_play_host: >-
 _swift_is_first_play_host: >-
   {{ ('swift_hosts' in group_names and inventory_hostname == (groups['swift_hosts'] | intersect(ansible_play_hosts)) | first) | bool }}
 
+_swift_oslomsg_notify_vhost_conf: >-
+  {{
+    (swift_oslomsg_notify_vhost is string) | ternary(
+      swift_oslomsg_notify_vhost, swift_oslomsg_notify_vhost | selectattr('state', 'eq', 'present') | map(attribute='name') | first)
+  }}
+
 filtered_swift_services: |-
   {% set services = [] %}
   {% for key,value in swift_services.items() %}

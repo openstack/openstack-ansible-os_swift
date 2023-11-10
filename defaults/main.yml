@@ -196,9 +196,18 @@ swift_oslomsg_notify_servers: "{{ oslomsg_notify_servers | default('127.0.0.1') 
 swift_oslomsg_notify_port: "{{ oslomsg_notify_port | default('5672') }}"
 swift_oslomsg_notify_use_ssl: "{{ oslomsg_notify_use_ssl | default(False) }}"
 swift_oslomsg_notify_userid: swift
-swift_oslomsg_notify_vhost: /swift
+swift_oslomsg_notify_vhost:
+  - name: /swift
+    state: "{{ swift_oslomsg_rabbit_quorum_queues | ternary('absent', 'present') }}"
+  - name: swift
+    state: "{{ swift_oslomsg_rabbit_quorum_queues | ternary('present', 'absent') }}"
+
 swift_oslomsg_notify_ssl_version: "{{ oslomsg_notify_ssl_version | default('TLSv1_2') }}"
 swift_oslomsg_notify_ssl_ca_file: "{{ oslomsg_notify_ssl_ca_file | default('') }}"
+
+swift_oslomsg_rabbit_quorum_queues: "{{ oslomsg_rabbit_quorum_queues | default(True) }}"
+swift_oslomsg_rabbit_quorum_delivery_limit: "{{ oslomsg_rabbit_quorum_delivery_limit | default(0) }}"
+swift_oslomsg_rabbit_quorum_max_memory_bytes: "{{ oslomsg_rabbit_quorum_max_memory_bytes | default(0) }}"
 
 ## General Swift configuration
 # We are not capping the default value for these swift variables which define
