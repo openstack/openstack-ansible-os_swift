@@ -39,11 +39,11 @@ use the storage devices ``sdc`` through to ``sdg``.
 
    .. code-block:: shell-session
 
-       LABEL=sdc /srv/node/sdc xfs noatime,nodiratime,nobarrier,logbufs=8,auto 0 0
-       LABEL=sdd /srv/node/sdd xfs noatime,nodiratime,nobarrier,logbufs=8,auto 0 0
-       LABEL=sde /srv/node/sde xfs noatime,nodiratime,nobarrier,logbufs=8,auto 0 0
-       LABEL=sdf /srv/node/sdf xfs noatime,nodiratime,nobarrier,logbufs=8,auto 0 0
-       LABEL=sdg /srv/node/sdg xfs noatime,nodiratime,nobarrier,logbufs=8,auto 0 0
+       LABEL=sdc /srv/node/sdc xfs noatime,nodiratime,logbufs=8,auto 0 0
+       LABEL=sdd /srv/node/sdd xfs noatime,nodiratime,logbufs=8,auto 0 0
+       LABEL=sde /srv/node/sde xfs noatime,nodiratime,logbufs=8,auto 0 0
+       LABEL=sdf /srv/node/sdf xfs noatime,nodiratime,logbufs=8,auto 0 0
+       LABEL=sdg /srv/node/sdg xfs noatime,nodiratime,logbufs=8,auto 0 0
 
 #. Create the mount points for the devices using the ``mkdir`` command:
 
