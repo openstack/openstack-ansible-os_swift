@@ -162,6 +162,7 @@
     _oslomsg_notify_password: "{{ swift_oslomsg_notify_password }}"
     _oslomsg_notify_vhost: "{{ swift_oslomsg_notify_vhost }}"
     _oslomsg_notify_transport: "{{ swift_oslomsg_notify_transport }}"
+    _oslomsg_notify_policies: "{{ swift_oslomsg_notify_policies }}"
   tags:
     - always
 

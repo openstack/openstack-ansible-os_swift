@@ -189,6 +189,7 @@ swift_reselleradmin_role: ResellerAdmin
 ## Oslo Messaging
 
 # Notify
+swift_oslomsg_notify_policies: []
 swift_oslomsg_notify_host_group: "{{ oslomsg_notify_host_group | default('rabbitmq_all') }}"
 swift_oslomsg_notify_setup_host: "{{ (swift_oslomsg_notify_host_group in groups) | ternary(groups[swift_oslomsg_notify_host_group][0], 'localhost') }}"
 swift_oslomsg_notify_transport: "{{ oslomsg_notify_transport | default('rabbit') }}"
