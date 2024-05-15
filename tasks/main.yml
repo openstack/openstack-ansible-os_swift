@@ -74,6 +74,7 @@
     - "'swift_all' in group_names"
   tags:
     - swift-config
+    - post-install
 
 - name: Importing swift_calculate_addresses tasks
   import_tasks: swift_calculate_addresses.yml
