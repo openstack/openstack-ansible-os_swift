@@ -47,7 +47,7 @@
 - name: Check for pypy venv
   stat:
     path: "{{ swift_bin | dirname }}/{{ swift_pypy_version }}-inuse"
-    get_md5: False
+    get_checksum: False
   register: local_pypy_venv_stat
 
 - name: Remove existing venv if not pypy setup
