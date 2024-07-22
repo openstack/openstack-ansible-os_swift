@@ -16,10 +16,10 @@
 _swift_proxy_is_first_play_host: >-
   {{
     (swift_services['swift-proxy-server']['group'] in group_names and
-      inventory_hostname == (groups[swift_services['swift-proxy-server']['group']] | intersect(ansible_play_hosts)) | first) | bool
+      inventory_hostname == (groups[swift_services['swift-proxy-server']['group']] | select('in', ansible_play_hosts)) | first) | bool
   }}
 _swift_is_first_play_host: >-
-  {{ ('swift_hosts' in group_names and inventory_hostname == (groups['swift_hosts'] | intersect(ansible_play_hosts)) | first) | bool }}
+  {{ ('swift_hosts' in group_names and inventory_hostname == (groups['swift_hosts'] | select('in', ansible_play_hosts)) | first) | bool }}
 
 _swift_oslomsg_notify_vhost_conf: >-
   {{
