@@ -24,6 +24,7 @@
     state: present
     value: "1"
     sysctl_set: yes
+    sysctl_file: "{{ swift_sysctl_file }}"
   delegate_to: "{{ physical_host }}"
 
 - name: "Set sysctl file-max"
@@ -32,6 +33,7 @@
     state: present
     value: "{{ swift_max_file_limits }}"
     sysctl_set: yes
+    sysctl_file: "{{ swift_sysctl_file }}"
   delegate_to: "{{ physical_host }}"
 
 - name: "Put /etc/rsyncd.conf in place"

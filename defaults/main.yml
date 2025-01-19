@@ -608,3 +608,5 @@ swift_pki_install_certificates:
 # Define user-provided SSL certificates
 # swift_user_ssl_cert: <path to cert on ansible deployment host>
 # swift_user_ssl_key: <path to cert on ansible deployment host>
+
+swift_sysctl_file: "{{ openstack_sysctl_file | default('/etc/sysctl.conf') }}"
