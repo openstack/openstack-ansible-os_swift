@@ -17,7 +17,7 @@
 swift_ceilometer_enabled: "{{ (groups['ceilometer_all'] is defined) and (groups['ceilometer_all'] | length > 0) }}"
 
 ## Verbosity Options
-debug: False
+debug: false
 
 # Set the host which will execute the shade modules
 # for the service setup. The host must already have
@@ -54,7 +54,6 @@ swift_bin: "{{ _swift_bin }}"
 
 # Set the full path to the swift recon cron
 recon_cron_path: "{{ swift_bin }}/swift-recon-cron"
-
 
 ## Swift User / Group
 swift_system_user_name: swift
@@ -161,12 +160,12 @@ swift_dispersion_user: dispersion
 swift_dispersion_user_domain_name: "Default"
 
 swift_operator_role: swiftoperator
-swift_allow_versions: True
+swift_allow_versions: true
 # This will allow all users to create containers and upload to swift if set to True
-swift_allow_all_users: False
+swift_allow_all_users: false
 # If you want to regenerate the swift keys, on a run, for rsync purposes set this var to True
 # otherwise keys will be generated on the first run and not regenerated each run.
-swift_recreate_keys: False
+swift_recreate_keys: false
 swift_sorting_method: shuffle
 # Set the fallocate_reserve value which will reserve space and fail on PUTs above this value in bytes (Default 10GB)
 swift_fallocate_reserve: "1%"
@@ -181,7 +180,7 @@ swift_object_disable_fallocate: "{{ swift_disable_fallocate }}"
 
 # This variable will protect against changing swift_hash_path_* variables unintentionally.
 # If you wish to change them intentionally set the swift_force_change_hashes variable to True.
-swift_force_change_hashes: False
+swift_force_change_hashes: false
 
 ## Swift ceilometer variables
 swift_reselleradmin_role: ResellerAdmin
@@ -262,7 +261,7 @@ swift_proxy_server_workers: "{{ (inventory_hostname == physical_host) | ternary(
 # This var is calculated by the play itself, and should not need to be set
 # It is defaulted for the benefit of the swift_proxy host which needs it
 # for the swift-init-systemd.j2 template file.
-swift_dedicated_replication: False
+swift_dedicated_replication: false
 
 swift_service_in_ldap: "{{ service_ldap_backend_enabled | default(False) }}"
 
@@ -294,10 +293,10 @@ swift_container_max_rsync_connections: "{{ swift_max_rsync_connections }}"
 swift_object_max_rsync_connections: "{{ swift_max_rsync_connections }}"
 
 # Set Swift to use rsync module per object server drive
-swift_rsync_module_per_drive: False
+swift_rsync_module_per_drive: false
 
 # Set Swift to use reverse lookup - requires name resolution or hosts entries
-swift_rsync_reverse_lookup: False
+swift_rsync_reverse_lookup: false
 
 # Set the managed regions as a list of swift regions to manage
 # Use for global clusters, default when not set is all regions.
@@ -309,8 +308,8 @@ swift_rsync_reverse_lookup: False
 # role get run. You should never need to adjust these, they are set
 # within the swift-setup and swift-sync roles to ensure only the
 # appropriate tasks within the os-swift role are run.
-swift_do_setup: True
-swift_do_sync: True
+swift_do_setup: true
+swift_do_sync: true
 
 # Example swift_container_sync_realms to specify container_sync realms
 # This can exist for multiple realms (in a list)
@@ -526,7 +525,7 @@ swift_services:
 # If you run the swift playbook with this option enabled, before a swift
 # replication pass completes, you may introduce unavailability in your
 # cluster. This has an end-user impact.
-swift_pretend_min_part_hours_passed: False
+swift_pretend_min_part_hours_passed: false
 
 # Set this option to enable or disable the pypy interpreter for swift
 swift_pypy_enabled: false
@@ -567,7 +566,7 @@ swift_memcache_conf_overrides: {}
 # `openstack_service_backend_ssl` is not taken into account
 # because TLS in swift-proxy is only for testing purposes:
 # https://opendev.org/openstack/swift/src/commit/c78a5962b5f6c9e75f154cac924a226815236e98/etc/proxy-server.conf-sample
-swift_backend_ssl: False
+swift_backend_ssl: false
 
 # Storage location for SSL certificate authority
 swift_pki_dir: "{{ openstack_pki_dir | default('/etc/openstack_deploy/pki') }}"
@@ -579,7 +578,7 @@ swift_pki_setup_host: "{{ openstack_pki_setup_host | default('localhost') }}"
 swift_pki_keys_path: "{{ swift_pki_dir ~ '/certs/private/' }}"
 swift_pki_certs_path: "{{ swift_pki_dir ~ '/certs/certs/' }}"
 swift_pki_intermediate_cert_name: "{{ openstack_pki_service_intermediate_cert_name | default('ExampleCorpIntermediate') }}"
-swift_pki_regen_cert: ''
+swift_pki_regen_cert: ""
 swift_pki_san: "{{ openstack_pki_san | default('DNS:' ~ ansible_facts['hostname'] ~ ',IP:' ~ management_address) }}"
 swift_pki_certificates:
   - name: "swift_{{ ansible_facts['hostname'] }}"

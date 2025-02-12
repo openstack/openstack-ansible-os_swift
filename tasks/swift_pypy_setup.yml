@@ -18,7 +18,7 @@
     url: "{{ swift_pypy_archive['url'] }}"
     checksum: "{{ swift_pypy_archive['checksum'] }}"
     dest: "/var/cache/{{ swift_pypy_archive['url'] | basename }}"
-    force: yes
+    force: true
     mode: "0644"
 
 - name: Create pypy dir
@@ -47,7 +47,7 @@
 - name: Check for pypy venv
   stat:
     path: "{{ swift_bin | dirname }}/{{ swift_pypy_version }}-inuse"
-    get_checksum: False
+    get_checksum: false
   register: local_pypy_venv_stat
 
 - name: Remove existing venv if not pypy setup

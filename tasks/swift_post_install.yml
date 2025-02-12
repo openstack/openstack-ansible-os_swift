@@ -42,9 +42,9 @@
   systemd:
     name: "{{ swift_sshd }}"
     state: started
-    enabled: yes
-    masked: no
-    daemon_reload: yes
+    enabled: true
+    masked: false
+    daemon_reload: true
   delegate_to: "{{ item }}"
   with_items: "{{ groups['swift_proxy'] }}"
   when:

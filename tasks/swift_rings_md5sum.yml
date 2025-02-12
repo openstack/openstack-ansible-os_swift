@@ -21,4 +21,4 @@
 
 - name: Register a fact for the md5sum
   set_fact:
-     builder_md5sum: "{{ md5sum.stdout }}"
+    builder_md5sum: "{{ md5sum.stdout }}"

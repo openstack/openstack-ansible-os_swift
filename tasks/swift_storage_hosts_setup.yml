@@ -23,7 +23,7 @@
     name: "net.ipv4.tcp_tw_reuse"
     state: present
     value: "1"
-    sysctl_set: yes
+    sysctl_set: true
     sysctl_file: "{{ swift_sysctl_file }}"
   delegate_to: "{{ physical_host }}"
 
@@ -32,7 +32,7 @@
     name: "fs.file-max"
     state: present
     value: "{{ swift_max_file_limits }}"
-    sysctl_set: yes
+    sysctl_set: true
     sysctl_file: "{{ swift_sysctl_file }}"
   delegate_to: "{{ physical_host }}"
 

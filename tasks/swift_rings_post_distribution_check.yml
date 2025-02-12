@@ -43,9 +43,9 @@
   command: "/etc/swift/scripts/swift_rings_check.py -f /etc/swift/scripts/{{ item[0] }}.contents{% if item[1] %} -r {{ item[1] }} {% endif %}"
   changed_when: false
   with_nested:
-    - ['account', 'container']
+    - ["account", "container"]
     - "{{ swift_managed_regions | default([None]) }}"
-  become: yes
+  become: true
   become_user: "{{ swift_system_user_name }}"
   args:
     chdir: /etc/swift/ring_build_files/
@@ -57,7 +57,7 @@
   with_nested:
     - "{{ swift.storage_policies }}"
     - "{{ swift_managed_regions | default([None]) }}"
-  become: yes
+  become: true
   become_user: "{{ swift_system_user_name }}"
   args:
     chdir: /etc/swift/ring_build_files/
