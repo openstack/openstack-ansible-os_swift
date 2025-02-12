@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Record the installation method
-  ini_file:
+  community.general.ini_file:
     dest: "/etc/ansible/facts.d/openstack_ansible.fact"
     section: "swift"
     option: "install_method"
@@ -22,12 +22,12 @@
     mode: "0644"
 
 - name: Refresh local facts to ensure the swift section is present
-  setup:
+  ansible.builtin.setup:
     filter: ansible_local
     gather_subset: "!all"
 
 - name: Install distro packages
-  package:
+  ansible.builtin.package:
     name: "{{ swift_package_list }}"
     state: "{{ swift_package_state }}"
     update_cache: "{{ (ansible_facts['pkg_mgr'] == 'apt') | ternary('yes', omit) }}"
@@ -38,7 +38,7 @@
   delay: 2
 
 - name: Install the python venv
-  import_role:
+  ansible.builtin.import_role:
     name: "python_venv_build"
   vars:
     venv_python_executable: "{{ swift_venv_python_executable }}"
@@ -54,5 +54,5 @@
   when: swift_install_method == 'source'
 
 - name: Including swift_pypy_setup tasks
-  include_tasks: swift_pypy_setup.yml
+  ansible.builtin.include_tasks: swift_pypy_setup.yml
   when: swift_pypy_enabled | bool

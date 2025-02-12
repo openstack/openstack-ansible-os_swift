@@ -14,11 +14,11 @@
 # limitations under the License.
 
 - name: Get public key contents and store as var
-  slurp:
+  ansible.builtin.slurp:
     src: "{{ swift_system_home_folder }}/.ssh/id_rsa.pub"
   register: swift_pub
   changed_when: false
 
 - name: Register a fact for the swift pub key
-  set_fact:
+  ansible.builtin.set_fact:
     swift_pubkey: "{{ swift_pub.content }}"

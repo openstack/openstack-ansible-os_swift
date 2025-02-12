@@ -15,7 +15,7 @@
 
 # Set swift_storage_address fact so it is consumable in hostvars (for ring.contents template)
 - name: Set swift_storage_address fact if defined
-  set_fact:
+  ansible.builtin.set_fact:
     swift_storage_address: "{{ swift_storage_address }}"
   when:
     - swift_storage_address is defined
@@ -24,7 +24,7 @@
 
 # swift_vars.storage_ip always takes precedence
 - name: Get swift_vars.storage_ip if defined
-  set_fact:
+  ansible.builtin.set_fact:
     swift_storage_address: "{{ swift_vars.storage_ip }}"
   when:
     - swift_vars.storage_ip is defined
@@ -33,7 +33,7 @@
 
 # Get the swift storage bridge
 - name: Get swift storage bridge
-  set_fact:
+  ansible.builtin.set_fact:
     swift_storage_bridge: "{{ swift.storage_network | replace('-', '_') }}"
   when:
     - swift.storage_network is defined
@@ -42,7 +42,7 @@
     - always
 
 - name: Gather facts for storage_bridge
-  setup:
+  ansible.builtin.setup:
     filter: "{{ swift_storage_bridge }}"
   when:
     - swift_storage_bridge is defined
@@ -50,7 +50,7 @@
     - swift_storage_address is not defined
 
 - name: Swift storage address not found
-  fail:
+  ansible.builtin.fail:
     msg: "{{ swift.storage_network }} not found on host, can't find storage address."
   when:
     - swift.storage_network is defined
@@ -59,7 +59,7 @@
     - swift_storage_address is not defined
 
 - name: Get swift storage address (with storage_network)
-  set_fact:
+  ansible.builtin.set_fact:
     swift_storage_address: "{{ ansible_facts[swift_storage_bridge]['ipv4']['address'] }}"
   when:
     - swift_storage_bridge is defined
@@ -69,7 +69,7 @@
     - always
 
 - name: Get swift storage address (no storage_network)
-  set_fact:
+  ansible.builtin.set_fact:
     swift_storage_address: "{{ ansible_host }}"
   when:
     - swift.storage_network is not defined
@@ -79,7 +79,7 @@
 
 # Set swift_replication_address fact so it is consumable in hostvars (for ring.contents template)
 - name: Set swift_replication_address fact if defined
-  set_fact:
+  ansible.builtin.set_fact:
     swift_replication_address: "{{ swift_replication_address }}"
   when:
     - swift_replication_address is defined
@@ -88,7 +88,7 @@
 
 # swift_vars.repl_ip always takes precedence
 - name: Get swift_vars.repl_ip if defined
-  set_fact:
+  ansible.builtin.set_fact:
     swift_replication_address: "{{ swift_vars.repl_ip }}"
   when:
     - swift_vars.repl_ip is defined
@@ -96,7 +96,7 @@
     - always
 
 - name: Get swift replication bridge
-  set_fact:
+  ansible.builtin.set_fact:
     swift_replication_bridge: "{{ swift.replication_network | replace('-', '_') }}"
   when:
     - swift.replication_network is defined
@@ -105,7 +105,7 @@
     - always
 
 - name: Gather facts for storage_bridge
-  setup:
+  ansible.builtin.setup:
     filter: "{{ swift_replication_bridge }}"
   when:
     - swift_replication_bridge is defined
@@ -113,7 +113,7 @@
     - swift_replication_address is not defined
 
 - name: Swift replication address not found
-  fail:
+  ansible.builtin.fail:
     msg: "{{ swift.replication_network }} not found on host, can't find swift_replication_address"
   when:
     - swift.replication_network is defined
@@ -122,7 +122,7 @@
     - swift_replication_address is not defined
 
 - name: Get swift replication address (with replication_network)
-  set_fact:
+  ansible.builtin.set_fact:
     swift_replication_address: "{{ ansible_facts[swift_replication_bridge]['ipv4']['address'] }}"
   when:
     - swift_replication_bridge is defined
@@ -132,7 +132,7 @@
     - always
 
 - name: Get swift replication address (no replication_network)
-  set_fact:
+  ansible.builtin.set_fact:
     swift_replication_address: "{{ swift_storage_address }}"
   when:
     - swift.replication_network is not defined
@@ -141,7 +141,7 @@
     - always
 
 - name: Set swift_dedicated_replication network if storage and replication addresses differ
-  set_fact:
+  ansible.builtin.set_fact:
     swift_dedicated_replication: "{{ swift_storage_address != swift_replication_address }}"
   tags:
     - always

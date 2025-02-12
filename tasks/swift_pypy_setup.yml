@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Download pre-built pypy
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ swift_pypy_archive['url'] }}"
     checksum: "{{ swift_pypy_archive['checksum'] }}"
     dest: "/var/cache/{{ swift_pypy_archive['url'] | basename }}"
@@ -22,13 +22,13 @@
     mode: "0644"
 
 - name: Create pypy dir
-  file:
+  ansible.builtin.file:
     path: "/opt/pypy-runtime"
     state: directory
     mode: "0755"
 
 - name: Unarchive pre-built pypy
-  unarchive:
+  ansible.builtin.unarchive:
     src: "/var/cache/{{ swift_pypy_archive['url'] | basename }}"
     dest: "/opt/pypy-runtime"
     copy: "no"
@@ -36,7 +36,7 @@
   register: local_pypy
 
 - name: Setup local pypy
-  command: "{{ item }}"
+  ansible.builtin.command: "{{ item }}"
   changed_when: false
   with_items:
     - "{{ swift_pypy_env }} /opt/get-pip.py"
@@ -45,19 +45,19 @@
     - local_pypy is changed
 
 - name: Check for pypy venv
-  stat:
+  ansible.builtin.stat:
     path: "{{ swift_bin | dirname }}/{{ swift_pypy_version }}-inuse"
     get_checksum: false
   register: local_pypy_venv_stat
 
 - name: Remove existing venv if not pypy setup
-  file:
+  ansible.builtin.file:
     path: "{{ swift_bin | dirname }}"
     state: absent
   when: not local_pypy_venv_stat.stat.exists | bool
 
 - name: Install pip packages into pypy venv
-  pip:
+  ansible.builtin.pip:
     name: "{{ swift_pip_packages }}"
     state: "{{ swift_pip_package_state }}"
     virtualenv: "{{ swift_bin | dirname }}"
@@ -75,7 +75,7 @@
     - Restart swift services
 
 - name: Mark swift venv for use with pypy
-  file:
+  ansible.builtin.file:
     path: "{{ swift_bin | dirname }}/{{ swift_pypy_version }}-inuse"
     state: "touch"
     mode: "0644"

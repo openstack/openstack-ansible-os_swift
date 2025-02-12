@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Restart swift services
-  service:
+  ansible.builtin.service:
     name: "{{ item.service_name }}"
     enabled: true
     state: "restarted"
@@ -26,7 +26,7 @@
     - "cert installed"
 
 - name: Restart rsync service
-  service:
+  ansible.builtin.service:
     name: "{{ swift_rsync_service_name }}"
     state: "restarted"
     enabled: "yes"

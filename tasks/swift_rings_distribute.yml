@@ -14,14 +14,14 @@
 # limitations under the License.
 
 - name: Pull swift rings to localhost
-  synchronize:
+  ansible.posix.synchronize:
     src: /etc/swift/ring_build_files/
     dest: "{{ lookup('env', 'OSA_CONFIG_DIR') }}/ring_build_files/"
     mode: pull
   when: _swift_is_first_play_host
 
 - name: Upload swift rings
-  synchronize:
+  ansible.posix.synchronize:
     src: "{{ lookup('env', 'OSA_CONFIG_DIR') }}/ring_build_files/"
     dest: "{{ item }}"
     mode: push

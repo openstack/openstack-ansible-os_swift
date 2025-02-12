@@ -48,7 +48,7 @@
 
 # Remove the dedicated replicator configuration when no dedicated replication network in use
 - name: "Remove dedicated replicator configuration"
-  file:
+  ansible.builtin.file:
     state: absent
     path: "/etc/swift/object-server/object-server-replicator.conf"
   when: not swift_dedicated_replication | bool
@@ -64,7 +64,7 @@
     config_type: "ini"
 
 - name: Create drive-audit cron job
-  cron:
+  ansible.builtin.cron:
     name: "Run drive-audit script"
     job: "{{ swift_bin }}/swift-drive-audit /etc/swift/drive-audit.conf"
     minute: 15

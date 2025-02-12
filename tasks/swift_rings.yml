@@ -14,22 +14,21 @@
 # limitations under the License.
 
 - name: Including swift_rings_md5sum tasks
-  include_tasks: swift_rings_md5sum.yml
+  ansible.builtin.include_tasks: swift_rings_md5sum.yml
 
 - name: Including swift_rings_check tasks
-  include_tasks: swift_rings_check.yml
+  ansible.builtin.include_tasks: swift_rings_check.yml
   when: _swift_is_first_play_host
 
 - name: Including swift_rings_build tasks
-  include_tasks: swift_rings_build.yml
+  ansible.builtin.include_tasks: swift_rings_build.yml
   when: _swift_is_first_play_host
 
 - name: Including swift_rings_distribute tasks
-  include_tasks: swift_rings_distribute.yml
-
+  ansible.builtin.include_tasks: swift_rings_distribute.yml
 - name: Including swift_rings_md5sum tasks
-  include_tasks: swift_rings_md5sum.yml
+  ansible.builtin.include_tasks: swift_rings_md5sum.yml
 
 - name: Including swift_rings_post_distribution_check tasks
-  include_tasks: swift_rings_post_distribution_check.yml
+  ansible.builtin.include_tasks: swift_rings_post_distribution_check.yml
   when: _swift_is_first_play_host

@@ -14,19 +14,19 @@
 # limitations under the License.
 
 - name: Test if swift.conf exists
-  stat:
+  ansible.builtin.stat:
     path: "/etc/swift/swift.conf"
   register: swift_conf
 
 - name: Get value of swift_hash_path_suffix from file
-  command: "awk '/swift_hash_path_suffix/{ print $3 }' /etc/swift/swift.conf"
+  ansible.builtin.command: "awk '/swift_hash_path_suffix/{ print $3 }' /etc/swift/swift.conf"
   changed_when: false
   register: swift_conf_hash_path_suffix
   when:
     - swift_conf.stat.exists | bool
 
 - name: Fail if swift_hash_path_suffix doesnt match file value
-  fail:
+  ansible.builtin.fail:
     msg: >
       "The swift_hash_path_suffix variable does not match what is in the file.
        Check your swift_hash_path_suffix setting in your user_*.yml files in /etc/openstack_deploy
@@ -38,14 +38,14 @@
     - swift_hash_path_suffix != swift_conf_hash_path_suffix.stdout
 
 - name: Get value of swift_hash_path_prefix from file
-  command: "awk '/swift_hash_path_prefix/{ print $3 }' /etc/swift/swift.conf"
+  ansible.builtin.command: "awk '/swift_hash_path_prefix/{ print $3 }' /etc/swift/swift.conf"
   changed_when: false
   register: swift_conf_hash_path_prefix
   when:
     - swift_conf.stat.exists | bool
 
 - name: Fail if swift_hash_path_prefix doesnt match file value
-  fail:
+  ansible.builtin.fail:
     msg: >
       "The swift_hash_path_prefix variable does not match what is in the file.
        Check your swift_hash_path_prefix setting in your user_*.yml files in /etc/openstack_deploy

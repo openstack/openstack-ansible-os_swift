@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Including swift_key_populate tasks
-  include_tasks: swift_key_populate.yml
+  ansible.builtin.include_tasks: swift_key_populate.yml
 
 - name: Including swift_key_distribute tasks
-  include_tasks: swift_key_distribute.yml
+  ansible.builtin.include_tasks: swift_key_distribute.yml

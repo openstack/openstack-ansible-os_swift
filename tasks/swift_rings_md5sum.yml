@@ -14,11 +14,11 @@
 # limitations under the License.
 
 - name: Get md5sum of builder files
-  shell: |
+  ansible.builtin.shell: |
     cat /etc/swift/*.builder 2>/dev/null | md5sum | cut -d " " -f1
   changed_when: false
   register: md5sum
 
 - name: Register a fact for the md5sum
-  set_fact:
+  ansible.builtin.set_fact:
     builder_md5sum: "{{ md5sum.stdout }}"

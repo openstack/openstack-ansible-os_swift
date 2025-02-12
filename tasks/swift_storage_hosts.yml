@@ -14,10 +14,10 @@
 # limitations under the License.
 
 - name: Including swift_storage_hosts_setup tasks
-  include_tasks: swift_storage_hosts_setup.yml
+  ansible.builtin.include_tasks: swift_storage_hosts_setup.yml
 - name: Including swift_storage_hosts_object tasks
-  include_tasks: swift_storage_hosts_object.yml
+  ansible.builtin.include_tasks: swift_storage_hosts_object.yml
 - name: Including swift_storage_hosts_account tasks
-  include_tasks: swift_storage_hosts_account.yml
+  ansible.builtin.include_tasks: swift_storage_hosts_account.yml
 - name: Including swift_storage_hosts_container tasks
-  include_tasks: swift_storage_hosts_container.yml
+  ansible.builtin.include_tasks: swift_storage_hosts_container.yml

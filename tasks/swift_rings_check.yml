@@ -14,13 +14,13 @@
 # limitations under the License.
 
 - name: Get md5sum of local builder files
-  shell: |
+  ansible.builtin.shell: |
     cat /etc/swift/ring_build_files/*.builder 2>/dev/null | md5sum | cut -d " " -f1
   changed_when: false
   register: md5sum
 
 - name: Get empty md5sum
-  shell: |
+  ansible.builtin.shell: |
     echo -n | md5sum | cut -d " " -f1
   changed_when: false
   register: empty_md5sum
@@ -28,7 +28,7 @@
 # Fail if the remote hosts builder files is not empty AND
 # does not match the md5sum of the local host.
 - name: Verify md5sum of builder files
-  fail:
+  ansible.builtin.fail:
     msg: >
       "The builder files on the remote host {{ item }}:{{ hostvars[item]['builder_md5sum'] }}
        do not match {{ inventory_hostname }}:{{ md5sum.stdout }}

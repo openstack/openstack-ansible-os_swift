@@ -39,7 +39,7 @@
     - Restart swift services
 
 - name: Enable SSHD
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ swift_sshd }}"
     state: started
     enabled: true
