@@ -63,10 +63,37 @@
     config_overrides: "{{ swift_drive_audit_conf_overrides }}"
     config_type: "ini"
 
+# TODO: This can be safely removed in 2025.2 cycle
 - name: Create drive-audit cron job
   ansible.builtin.cron:
     name: "Run drive-audit script"
-    job: "{{ swift_bin }}/swift-drive-audit /etc/swift/drive-audit.conf"
-    minute: 15
-    cron_file: swift-drive-audit
-    user: root
+    state: absent
+
+- name: Create drive-audit systemd timer
+  ansible.builtin.include_role:
+    name: systemd_service
+  vars:
+    systemd_service_restart_changed: false
+    systemd_user_name: "root"
+    systemd_group_name: "root"
+    systemd_tempd_prefix: openstack
+    systemd_slice_name: "{{ swift_system_slice_name }}"
+    systemd_lock_dir: "{{ swift_lock_dir }}"
+    systemd_service_restart: on-abnormal
+    systemd_services:
+      - service_name: "swift-drive-audit"
+        execstarts:
+          - "{{ swift_bin }}/swift-drive-audit /etc/swift/drive-audit.conf"
+        environment:
+          UMASK: "0640"
+          UMASK_DIR: "0750"
+        program_sandboxing:
+          RuntimeDirectory: "swift-drive-audit"
+        enabled: true
+        timer:
+          state: 'started'
+          enabled: true
+          options:
+            OnCalendar: "*:0/15"
+            Persistent: true
+            Unit: "swift-drive-audit.service"
