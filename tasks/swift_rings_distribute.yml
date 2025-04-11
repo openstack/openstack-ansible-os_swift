@@ -13,18 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Pull swift rings to localhost
-  ansible.posix.synchronize:
-    src: /etc/swift/ring_build_files/
-    dest: "{{ lookup('env', 'OSA_CONFIG_DIR') }}/ring_build_files/"
-    mode: pull
+- name: Distribute rings
+  command: >
+    rsync -e 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+          -avz
+          /etc/swift/ring_build_files/
+          {{ swift_system_user_name }}@{{ hostvars[item]['ansible_host'] | default(item) }}:/etc/swift/
+  become: true
+  become_user: "{{ swift_system_user_name }}"
+  changed_when: false
+  with_items: "{{ groups['swift_all'] }}"
   when: _swift_is_first_play_host
-
-- name: Upload swift rings
-  ansible.posix.synchronize:
-    src: "{{ lookup('env', 'OSA_CONFIG_DIR') }}/ring_build_files/"
-    dest: "{{ item }}"
-    mode: push
-  with_items:
-    - /etc/swift/
-    - /etc/swift/ring_build_files/
+  tags:
+    - skip_ansible_lint
