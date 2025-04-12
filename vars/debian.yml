@@ -43,6 +43,7 @@ swift_container_distro_packages:
 
 swift_object_distro_packages:
   - swift-object
+  - swift-object-expirer
 
 swift_proxy_distro_packages:
   - swift-proxy
