@@ -61,9 +61,6 @@
     - { path: "/etc/rsync.d", owner: "root", group: "root" }
 
 - name: Configure mlocate for cron.daily
-  ansible.builtin.template:
-    src: "mlocate-crond-daily.sh.j2"
-    dest: "/etc/cron.daily/mlocate"
-    mode: "0755"
-    owner: "root"
-    group: "root"
+  ansible.builtin.file:
+    path: "/etc/cron.daily/mlocate"
+    state: absent
