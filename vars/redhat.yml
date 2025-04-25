@@ -31,6 +31,7 @@ swift_devel_distro_packages:
 swift_service_distro_packages:
   - openstack-swift
   - python3-keystonemiddleware
+  - python3-ceilometermiddleware
   - python3-memcached
   - python3-swift
 

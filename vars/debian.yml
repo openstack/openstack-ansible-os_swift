@@ -30,6 +30,7 @@ swift_devel_distro_packages:
 
 swift_service_distro_packages:
   - python3-keystonemiddleware
+  - python3-ceilometermiddleware
   - python3-memcache
   - python3-swift
   - swift
