@@ -609,3 +609,29 @@ swift_pki_install_certificates:
 # swift_user_ssl_key: <path to cert on ansible deployment host>
 
 swift_sysctl_file: "{{ openstack_sysctl_file | default('/etc/sysctl.conf') }}"
+
+# host which holds the ssh certificate authority
+swift_ssh_keypairs_setup_host: "{{ openstack_ssh_keypairs_setup_host | default('localhost') }}"
+# directory on the deploy host to create and store SSH keypairs
+swift_ssh_keypairs_dir: "{{ openstack_ssh_keypairs_dir }}"
+# Each swift host needs a signed ssh certificate to log into the others
+swift_ssh_keypairs:
+  - name: "swift-{{ inventory_hostname }}"
+    cert:
+      signed_by: "{{ openstack_ssh_signing_key }}"
+      principals: "{{ swift_ssh_key_principals | default('swift') }}"
+      valid_from: "{{ swift_ssh_key_valid_from | default('always') }}"
+      valid_to: "{{ swift_ssh_key_valid_to | default('forever') }}"
+# Each swift host needs the signed ssh certificate installing to the swift user
+swift_ssh_keypairs_install_keys:
+  owner: "{{ swift_system_user_name }}"
+  group: "{{ swift_system_group_name }}"
+  keys:
+    - cert: "swift-{{ inventory_hostname }}"
+      dest: "{{ swift_system_home_folder }}/.ssh/id_rsa"
+# Each swift host must trust the SSHD certificate authoritiy in the sshd configuration
+swift_ssh_keypairs_install_ca: "{{ openstack_ssh_keypairs_authorities }}"
+# Each swift host must allow SSH certificates with the appropriate principal to log into the swift user
+swift_ssh_keypairs_principals:
+  - user: "{{ swift_system_user_name }}"
+    principals: "{{ swift_ssh_key_principals | default(['swift']) }}"

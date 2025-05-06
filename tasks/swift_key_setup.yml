@@ -13,8 +13,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Including swift_key_populate tasks
-  ansible.builtin.include_tasks: swift_key_populate.yml
+- name: Ensure .ssh directory is present
+  ansible.builtin.file:
+    state: directory
+    path: "{{ swift_system_home_folder }}/.ssh"
+    owner: "{{ swift_system_user_name }}"
+    group: "{{ swift_system_group_name }}"
+    mode: '0755'
 
-- name: Including swift_key_distribute tasks
-  ansible.builtin.include_tasks: swift_key_distribute.yml
+- name: Create ssh keys for synchronising rings
+  ansible.builtin.include_role:
+    name: openstack.osa.ssh_keypairs
+  args:
+    apply:
+      tags:
+        - swift-key
+  vars:
+    ssh_keypairs_setup_host: "{{ swift_ssh_keypairs_setup_host }}"
+    ssh_keypairs_dir: "{{ swift_ssh_keypairs_dir }}"
+    ssh_keypairs: "{{ swift_ssh_keypairs }}"
+    ssh_keypairs_install_keys: "{{ swift_ssh_keypairs_install_keys }}"
+    ssh_keypairs_install_ca: "{{ swift_ssh_keypairs_install_ca }}"
+    ssh_keypairs_principals: "{{ swift_ssh_keypairs_principals }}"
+  tags:
+    - always
