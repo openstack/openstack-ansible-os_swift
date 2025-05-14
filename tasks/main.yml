@@ -59,6 +59,13 @@
   tags:
     - swift-install
 
+- name: Importing swift_key_setup tasks
+  ansible.builtin.import_tasks: swift_key_setup.yml
+  when:
+    - "swift_do_sync | bool"
+  tags:
+    - swift-config
+
 - name: Importing swift_install tasks
   ansible.builtin.import_tasks: swift_install.yml
   when:
@@ -96,13 +103,6 @@
   when:
     - "swift_do_setup | bool"
     - "'swift_proxy' in group_names"
-  tags:
-    - swift-config
-
-- name: Importing swift_key_setup tasks
-  ansible.builtin.import_tasks: swift_key_setup.yml
-  when:
-    - "swift_do_sync | bool"
   tags:
     - swift-config
 

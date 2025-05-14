@@ -37,3 +37,6 @@
     ssh_keypairs_principals: "{{ swift_ssh_keypairs_principals }}"
   tags:
     - always
+
+- name: Ensure SSH is restarted
+  ansible.builtin.meta: flush_handlers
