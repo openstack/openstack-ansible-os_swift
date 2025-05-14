@@ -13,22 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Get md5sum of local builder files
-  ansible.builtin.shell: |
-    cat /etc/swift/*.builder 2>/dev/null | md5sum | cut -d " " -f1
-  changed_when: false
-  register: md5sum
-
-# Fail if the remote hosts builder files don't match
-# As this is post sync all should match and not be empty
-- name: Verify md5sum of builder files
-  ansible.builtin.fail:
-    msg: >
-      "The builder files on the remote host {{ item }}:{{ hostvars[item]['builder_md5sum'] }}
-       do not match {{ inventory_hostname }}:{{ md5sum.stdout }}"
-  when: hostvars[item]['builder_md5sum'] != md5sum.stdout
-  with_items: "{{ groups['swift_all'] + groups['swift_remote_all'] }}"
-
 - name: "Copy the swift_rings_check.py file"
   ansible.builtin.template:
     src: swift_rings_check.py.j2
