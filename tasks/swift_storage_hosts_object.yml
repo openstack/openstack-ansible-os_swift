@@ -63,12 +63,6 @@
     config_overrides: "{{ swift_drive_audit_conf_overrides }}"
     config_type: "ini"
 
-# TODO: This can be safely removed in 2025.2 cycle
-- name: Create drive-audit cron job
-  ansible.builtin.cron:
-    name: "Run drive-audit script"
-    state: absent
-
 - name: Create drive-audit systemd timer
   ansible.builtin.include_role:
     name: systemd_service
