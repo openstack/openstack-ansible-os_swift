@@ -54,12 +54,6 @@
   when: ansible_facts['pkg_mgr'] =="apt"
   notify: "Restart rsync service"
 
-# TODO: This can be safely removed in 2025.2 cycle
-- name: "Setup swift-recon-cron cron job"
-  ansible.builtin.cron:
-    name: "swift-recon-cron run"
-    state: absent
-
 - name: Setup swift-recon-cron systemd timer
   ansible.builtin.include_role:
     name: systemd_service
