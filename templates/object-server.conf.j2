@@ -49,9 +49,6 @@ reclaim_age = {{ reclaim_age | default(604800) }}
 rsync_module = {replication_ip}::object_{device}
 {%   endif %}
 
-#TODO(jamesdenton): Remove config section when no longer required for service to start
-[object-auditor]
-
 [object-reconstructor]
 concurrency = 6
 reclaim_age = {{ reclaim_age | default(604800) }}
