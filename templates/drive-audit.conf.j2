@@ -1,4 +1,4 @@
-# {{ ansible_managed }}
+# {{ openstack_ansible_managed | default('OpenStack-Ansible Managed') }}
 
 [drive-audit]
 device_dir = {{ swift_vars.mount_point | default(swift.mount_point) }}
