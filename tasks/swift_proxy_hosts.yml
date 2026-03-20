@@ -43,6 +43,8 @@
     config_overrides: "{{ swift_proxy_server_conf_overrides }}"
     config_type: "ini"
   notify: Restart swift services
+  tags:
+    - post-install
 
 # If we've specified a container-sync realm use container-sync-realms.conf
 - name: "Swift container-sync configuration"
@@ -57,3 +59,5 @@
   when: >
     swift_container_sync_realms is defined
   notify: Restart swift services
+  tags:
+    - post-install
