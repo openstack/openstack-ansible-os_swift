@@ -23,7 +23,7 @@ log_statsd_metric_prefix = {{ swift_proxy_vars.statsd_metric_prefix | default(sw
 {% endif %}
 
 [pipeline:main]
-pipeline = {{ swift_middleware_list | join(' ') }}
+pipeline = {{ swift_middleware_list | select | join(' ') }}
 
 [filter:copy]
 use = egg:swift#copy
