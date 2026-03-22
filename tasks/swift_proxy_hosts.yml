@@ -22,9 +22,10 @@
         - swift-config
         - pki
   vars:
+    pki_backend: "{{ swift_pki_backend }}"
     pki_setup_host: "{{ swift_pki_setup_host }}"
     pki_dir: "{{ swift_pki_dir }}"
-    pki_create_certificates: "{{ swift_user_ssl_cert is not defined and placement_user_ssl_key is not defined }}"
+    pki_create_certificates: "{{ swift_user_ssl_cert | length == 0 and swift_user_ssl_key | length == 0 }}"
     pki_regen_cert: "{{ swift_pki_regen_cert }}"
     pki_certificates: "{{ swift_pki_certificates }}"
     pki_install_certificates: "{{ swift_pki_install_certificates }}"
