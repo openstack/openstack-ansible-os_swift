@@ -25,9 +25,6 @@ log_statsd_metric_prefix = {{ swift_proxy_vars.statsd_metric_prefix | default(sw
 [pipeline:main]
 pipeline = {{ swift_middleware_list | select | join(' ') }}
 
-[filter:copy]
-use = egg:swift#copy
-
 [app:proxy-server]
 use = egg:swift#proxy
 node_timeout = 60
@@ -116,6 +113,9 @@ use = egg:swift#memcache
 [filter:ratelimit]
 use = egg:swift#ratelimit
 
+[filter:read_only]
+use = egg:swift#read_only
+
 [filter:domain_remap]
 use = egg:swift#domain_remap
 
@@ -136,6 +136,9 @@ use = egg:swift#formpost
 
 [filter:name_check]
 use = egg:swift#name_check
+
+[filter:etag-quoter]
+use = egg:swift#etag_quoter
 
 [filter:list-endpoints]
 use = egg:swift#list_endpoints
@@ -159,6 +162,9 @@ use = egg:swift#dlo
 use = egg:swift#versioned_writes
 allow_versioned_writes = True
 
+[filter:copy]
+use = egg:swift#copy
+
 [filter:account-quotas]
 use = egg:swift#account_quotas
 
@@ -170,6 +176,15 @@ use = egg:swift#container_sync
 
 [filter:xprofile]
 use = egg:swift#xprofile
+
+[filter:encryption]
+use = egg:swift#encryption
+
+[filter:listing_formats]
+use = egg:swift#listing_formats
+
+[filter:symlink]
+use = egg:swift#symlink
 
 {% if 'ceilometer' in swift_middleware_list %}
 [filter:ceilometer]
