@@ -32,6 +32,8 @@
       config_overrides: "{{ swift_object_expirer_conf_overrides }}"
       config_type: "ini"
   notify: Restart swift services
+  tags:
+    - post-install
 
 # We only create the dedicated replicator configuration when using a dedicated replication_network
 - name: "Swift object server replicator configuration"
