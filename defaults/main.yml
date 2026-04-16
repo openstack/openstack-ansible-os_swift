@@ -366,6 +366,7 @@ swift_proxy_server_init_overrides: {}
 swift_service_defaults:
   Service:
     LimitNOFILE: "{{ swift_soft_open_file_limits }}:{{ swift_hard_open_file_limits }}"
+    AmbientCapabilities: "CAP_SETGID CAP_SETUID"
     Environment: >-
       {{
         {
