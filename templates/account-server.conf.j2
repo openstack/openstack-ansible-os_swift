@@ -39,6 +39,8 @@ use = egg:swift#recon
 recon_cache_path = {{ swift_cache_path }}
 recon_lock_path = {{ swift_lock_dir }}
 
+[account-auditor]
+
 {% if not swift_dedicated_replication %}
 [account-replicator]
 per_diff = 10000
