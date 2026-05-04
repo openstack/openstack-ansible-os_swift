@@ -44,6 +44,8 @@ recon_lock_path = {{ swift_lock_dir }}
 reclaim_age = {{ reclaim_age | default(604800) }}
 {% endif %}
 
+[container-auditor]
+
 [container-updater]
 node_timeout = 15
 conn_timeout = 5
