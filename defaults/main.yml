@@ -334,7 +334,7 @@ swift_pip_packages:
   - pymemcache
   - python-memcached
   - python-swiftclient
-  - "git+{{ swift_git_repo }}@{{ swift_git_install_branch }}#egg=swift"
+  - "swift@git+{{ swift_git_repo }}@{{ swift_git_install_branch }}"
   - systemd-python
 
 # Memcached override
